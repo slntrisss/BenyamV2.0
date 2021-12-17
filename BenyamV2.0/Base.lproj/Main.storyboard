@@ -13,7 +13,7 @@
         <!--My mix-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BenyamV2_0" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="main" id="BYZ-38-t0r" customClass="ViewController" customModule="BenyamV2_0" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -142,7 +142,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9RC-vs-Pb8">
+                            <containerView opaque="NO" tag="1408" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9RC-vs-Pb8">
                                 <rect key="frame" x="0.0" y="812" width="414" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="6yN-WK-15c"/>
@@ -166,7 +166,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="My mix" id="nnx-xi-jcS"/>
                     <connections>
-                        <outlet property="mainView" destination="9RC-vs-Pb8" id="pfz-G8-2dF"/>
+                        <outlet property="mainView" destination="9RC-vs-Pb8" id="Zl3-4d-8Rl"/>
                         <outlet property="table" destination="gCN-4c-iAR" id="9W3-Pf-3zB"/>
                     </connections>
                 </viewController>
@@ -318,7 +318,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" backgroundImage="play.fill" catalog="system"/>
                                 <connections>
-                                    <action selector="splayAndPauseAudio:" destination="obq-sm-W4c" eventType="touchUpInside" id="86c-8c-V4c"/>
+                                    <action selector="playOrPauseAudio:" destination="obq-sm-W4c" eventType="touchUpInside" id="7dQ-0d-826"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shivers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fay-Ea-U9V">
@@ -362,13 +362,15 @@
                     </view>
                     <connections>
                         <outlet property="artistName" destination="0Fr-OB-U7l" id="peQ-Kz-muc"/>
+                        <outlet property="btnClose" destination="A3Z-JS-o9M" id="i9u-x4-qjb"/>
+                        <outlet property="btnPlayOrPause" destination="xwl-NQ-nNc" id="Agb-8h-os6"/>
                         <outlet property="holderView" destination="baJ-j8-N3C" id="aXr-6n-FSY"/>
                         <outlet property="songTitle" destination="fay-Ea-U9V" id="hgI-RT-GnW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ptV-yu-V7c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="563"/>
+            <point key="canvasLocation" x="1046" y="568"/>
         </scene>
         <!--Player View Controller-->
         <scene sceneID="iwo-dP-EUJ">

@@ -27,16 +27,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             mainView.isHidden = false
         }
         let song = MusicDAO.shared.songs[indexPath.row]
-        miniPlayer?.configure(song)
-        let player = MusicController.shared.player
-        if let player = player{
-            if player.isPlaying{
-                
-            }
-        }
-        else{
-            MusicController.shared.configure(MusicDAO.shared.songs, indexPath.row)
-        }
+        miniPlayer?.configure(song, mainView)
+        MusicController.shared.configure(MusicDAO.shared.songs, indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
