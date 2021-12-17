@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var miniPlayer:MiniPlayerViewController?
     var playlistVC: PlaylistViewController?
     var playlist:Playlist?
+    var position = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -21,14 +22,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         mainView.isHidden = true
     }
     
+    @objc func gestureRecognized(_ gesture: UITapGestureRecognizer){
+        guard let vc = storyboard?.instantiateViewController(identifier: "player")
+                as? PlayerViewController else{
+            return
+        }
+        vc.player = MusicController.shared.player
+        vc.songs = MusicDAO.shared.songs
+        vc.position = position
+        vc.miniPlayer = miniPlayer
+        present(vc, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if(mainView.isHidden == true){
             mainView.isHidden = false
         }
-        let song = MusicDAO.shared.songs[indexPath.row]
+        position = indexPath.row
+        let song = MusicDAO.shared.songs[position]
         miniPlayer?.configure(song, mainView)
         MusicController.shared.configure(MusicDAO.shared.songs, indexPath.row)
+        let gestureRecognizer = UITapGestureRecognizer(target: self,
+                                                       action: #selector(gestureRecognized(_ :)))
+        gestureRecognizer.numberOfTapsRequired = 1
+        gestureRecognizer.numberOfTouchesRequired = 1
+        mainView.addGestureRecognizer(gestureRecognizer)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

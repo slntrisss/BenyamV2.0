@@ -29,6 +29,7 @@ class MusicController{
                 return
             }
             player.play()
+            player.setVolume(audioSession.outputVolume, fadeDuration: .infinity)
         }catch{
             print("error")
         }

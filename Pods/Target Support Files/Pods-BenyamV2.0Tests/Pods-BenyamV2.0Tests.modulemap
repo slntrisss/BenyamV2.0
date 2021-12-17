@@ -1,0 +1,6 @@
+framework module Pods_BenyamV2_0Tests {
+  umbrella header "Pods-BenyamV2.0Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

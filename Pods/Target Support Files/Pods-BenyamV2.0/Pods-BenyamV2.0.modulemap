@@ -1,0 +1,6 @@
+framework module Pods_BenyamV2_0 {
+  umbrella header "Pods-BenyamV2.0-umbrella.h"
+
+  export *
+  module * { export * }
+}
