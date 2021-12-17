@@ -13,6 +13,12 @@ class MiniPlayerViewController:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    @IBAction func removeAndStopAudio(_ sender: Any) {
+        self.holderView.isHidden = true
+    }
+    @IBAction func splayAndPauseAudio(_ sender: Any) {
+    }
+    
     func configure(_ song:Song){
         songTitle.text = song.songName
         artistName.text = song.artistName

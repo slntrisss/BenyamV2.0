@@ -8,11 +8,18 @@
 import UIKit
 class PlaylistViewController:UIViewController, UITableViewDataSource, UITableViewDelegate{
     @IBOutlet weak var tableView:UITableView!
+    @IBOutlet weak var posterImage: UIImageView!
+    @IBOutlet weak var navBarItem: UINavigationItem!
     var songs:[Song] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    func configure(_ playlist:Playlist){
+        self.songs = playlist.songs
+        navBarItem.title = playlist.name
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
