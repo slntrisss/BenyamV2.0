@@ -10,9 +10,11 @@ class Song{
     let artistName:String
     let songName:String
     let coverName:String
-    init(_ artistName:String, _ songName:String, _ coverName:String){
+    let fileName:String
+    init(_ artistName:String, _ songName:String, _ coverName:String, _ fileName:String){
         self.artistName = artistName
         self.songName = songName
         self.coverName = coverName
+        self.fileName = fileName
     }
 }

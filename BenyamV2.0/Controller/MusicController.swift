@@ -23,7 +23,6 @@ class MusicController{
             guard let urlString = urlString else{
                 return
             }
-            
             player = try AVAudioPlayer(contentsOf: URL(string: urlString)!)
             guard let player = player else{
                 return

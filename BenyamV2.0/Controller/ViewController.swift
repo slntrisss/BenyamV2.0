@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var miniPlayer:MiniPlayerViewController?
     var playlistVC: PlaylistViewController?
     var playlist:Playlist?
+    var songs:[Song] = []
     var position = 0
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         table.delegate = self;
         table.dataSource = self;
         mainView.isHidden = true
+        MusicDAO.shared.loadData(completion: { songs, error in
+            if let songs = songs {
+                self.songs = songs
+                print("Got Data!")
+                print(songs.count)
+            }
+            else if let error = error {
+                print("error occured")
+            }
+        })
     }
     
     @objc func gestureRecognized(_ gesture: UITapGestureRecognizer){
@@ -51,7 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MusicDAO.shared.songs.count
+        return MusicDAO.shared.songs.count
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
