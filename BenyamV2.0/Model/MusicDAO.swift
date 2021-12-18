@@ -8,13 +8,14 @@
 import Foundation
 import Firebase
 class MusicDAO{
-    var docRef: DocumentReference!
+    var docRef: CollectionReference!
     public var songs:[Song] = []
     var playlists:[Playlist] = []
     static let shared = MusicDAO()
-    func loadData(completion: @escaping ([Song]?, Error?) -> Void){
-        Firestore.firestore().collection("music").getDocuments {snapshot, error  in
-            guard let snapshot = snapshot, error == nil else{return}
+    func loadData(){
+        docRef = Firestore.firestore().collection("music")
+        docRef.getDocuments { snapshot, error in
+            guard let snapshot = snapshot else{return}
             for document in snapshot.documents {
                 if(document.documentID == "songs"){
                     let count:Int = document.data().count
@@ -31,13 +32,36 @@ class MusicDAO{
                         }
                         i += 1
                     }
-                    completion(self.songs, nil)
                 }
                 else if(document.documentID == "playlists"){
-                    let name = document.data()["name"] as? String ?? ""
-                    let posterName = document.data()["posterName"] as? String ?? ""
-                    let songs = document.data()["songs"] as? [Song] ?? []
-                    self.playlists.append(Playlist(name, posterName, songs))
+                    let playlistCount:Int = document.data().count
+                    let data = document.data()
+                    var i = 1
+                    while(i <= playlistCount){
+                        let id = "playlist\(i)"
+                        if let playlist = data[id] as? [String : Any]{
+                            let name = playlist["name"] as? String ?? ""
+                            let posterName = playlist["posterName"] as? String ?? ""
+                            var songArray = [Song]()
+                            if let songs = playlist["songs"] as? [String:Any] {
+                                let songCount = songs.count
+                                var j = 1;
+                                while(j <= songCount){
+                                    let songId = "song\(j)"
+                                    if let song = songs[songId] as? [String: Any]{
+                                        let songName = song["songName"] as? String ?? "error"
+                                        let artistName = song["artistName"] as? String ?? ""
+                                        let coverName = song["coverName"] as? String ?? ""
+                                        let fileName = song["fileName"] as? String ?? ""
+                                        songArray.append(Song(artistName, songName, coverName, fileName))
+                                    }
+                                    j += 1
+                                }
+                            }
+                            self.playlists.append(Playlist(name, posterName, songArray))
+                        }
+                        i += 1
+                    }
                 }
             }
         }

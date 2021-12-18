@@ -14,7 +14,8 @@ class MusicController{
     var position = 0
     func configure(_ songs:[Song], _ position:Int){
         let song = songs[position]
-        let urlString = Bundle.main.path(forResource: song.songName, ofType: "m4a")
+        print(song.songName)
+        let urlString = Bundle.main.path(forResource: song.fileName, ofType: "m4a")
         let audioSession = AVAudioSession.sharedInstance()
         do{
             try audioSession.setCategory(.playback)

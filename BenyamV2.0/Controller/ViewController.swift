@@ -6,14 +6,16 @@
 //
 
 import UIKit
-
+import Firebase
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler {
     @IBOutlet weak var table:UITableView!
     @IBOutlet weak var mainView:UIView!
     var miniPlayer:MiniPlayerViewController?
     var playlistVC: PlaylistViewController?
+    var playlists = [Playlist]()
     var playlist:Playlist?
-    var songs:[Song] = []
+    var songs = [Song]()
+    var docRef:CollectionReference!
     var position = 0
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,25 +23,75 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         table.delegate = self;
         table.dataSource = self;
         mainView.isHidden = true
-        MusicDAO.shared.loadData(completion: { songs, error in
-            if let songs = songs {
-                self.songs = songs
-                print("Got Data!")
-                print(songs.count)
-            }
-            else if let error = error {
-                print("error occured")
-            }
-        })
+        docRef = Firestore.firestore().collection("music")
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        docRef.getDocuments { snapshot, error in
+            guard let snapshot = snapshot else{return}
+            for document in snapshot.documents {
+                if(document.documentID == "songs"){
+                    let count:Int = document.data().count
+                    let data = document.data()
+                    var i = 1
+                    var songArray = [Song]()
+                    while (i <= count){
+                        let id = "song\(i)"
+                        if let song = data[id] as? [String: Any] {
+                            let songName = song["songName"] as? String ?? "error"
+                            let artistName = song["artistName"] as? String ?? ""
+                            let coverName = song["coverName"] as? String ?? ""
+                            let fileName = song["fileName"] as? String ?? ""
+                            songArray.append(Song(artistName, songName, coverName, fileName))
+                        }
+                        i += 1
+                    }
+                    self.songs = songArray
+                }
+                else if(document.documentID == "playlists"){
+                    let playlistCount:Int = document.data().count
+                    let data = document.data()
+                    var i = 1
+                    var playlistArray = [Playlist]()
+                    while(i <= playlistCount){
+                        let id = "playlist\(i)"
+                        if let playlist = data[id] as? [String : Any]{
+                            let name = playlist["name"] as? String ?? ""
+                            let posterName = playlist["posterName"] as? String ?? ""
+                            var songArray = [Song]()
+                            if let songs = playlist["songs"] as? [String:Any] {
+                                let songCount = songs.count
+                                var j = 1;
+                                while(j <= songCount){
+                                    let songId = "song\(j)"
+                                    if let song = songs[songId] as? [String: Any]{
+                                        let songName = song["songName"] as? String ?? "error"
+                                        let artistName = song["artistName"] as? String ?? ""
+                                        let coverName = song["coverName"] as? String ?? ""
+                                        let fileName = song["fileName"] as? String ?? ""
+                                        songArray.append(Song(artistName, songName, coverName, fileName))
+                                    }
+                                    j += 1
+                                }
+                            }
+                            playlistArray.append(Playlist(name, posterName, songArray))
+                        }
+                        i += 1
+                    }
+                    self.playlists = playlistArray
+                }
+            }
+            self.table.reloadData()
+        }
+        
+    }
     @objc func gestureRecognized(_ gesture: UITapGestureRecognizer){
         guard let vc = storyboard?.instantiateViewController(identifier: "player")
                 as? PlayerViewController else{
             return
         }
         vc.player = MusicController.shared.player
-        vc.songs = MusicDAO.shared.songs
+        vc.songs = songs
         vc.position = position
         vc.miniPlayer = miniPlayer
         present(vc, animated: true, completion: nil)
@@ -51,9 +103,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             mainView.isHidden = false
         }
         position = indexPath.row
-        let song = MusicDAO.shared.songs[position]
+        let song = songs[position]
         miniPlayer?.configure(song, mainView)
-        MusicController.shared.configure(MusicDAO.shared.songs, indexPath.row)
+        if let player = MusicController.shared.player{
+            if (player.isPlaying){
+                player.stop()
+            }
+        }
+        MusicController.shared.configure(songs, indexPath.row)
         let gestureRecognizer = UITapGestureRecognizer(target: self,
                                                        action: #selector(gestureRecognized(_ :)))
         gestureRecognizer.numberOfTapsRequired = 1
@@ -62,7 +119,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MusicDAO.shared.songs.count
+        return songs.count
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -88,14 +145,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if(indexPath.row == 0){
             let playlistsCell = tableView.dequeueReusableCell(withIdentifier: PlaylistTableViewCell.identifier, for: indexPath) as! PlaylistTableViewCell
-            let playlists = MusicDAO.shared.playlists
+            let playlists = playlists
             playlistsCell.configure(playlists)
             playlistsCell.delegate = self
             return playlistsCell
         }
-        
         let musicCell = tableView.dequeueReusableCell(withIdentifier: MusicCell.identifier, for: indexPath) as! MusicCell
-        musicCell.configure(MusicDAO.shared.songs[indexPath.row])
+        musicCell.configure(songs[indexPath.row])
         return musicCell
     }
     
