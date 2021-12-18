@@ -8,13 +8,23 @@
 import UIKit
 class PlaylistViewController:UIViewController, UITableViewDataSource, UITableViewDelegate{
     @IBOutlet weak var tableView:UITableView!
-    @IBOutlet weak var posterImage: UIImageView!
+    @IBOutlet weak var miniPlayerView: UIView!
     @IBOutlet weak var navBarItem: UINavigationItem!
+    weak var miniPlayer:MiniPlayerViewController?
     var songs:[Song] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        if(miniPlayerView.isHidden == false){
+            miniPlayerView.isHidden = true
+        }
+        if let _ = MusicController.shared.player{
+            miniPlayerView.isHidden = false
+            let position = MusicController.shared.position
+            let song = MusicController.shared.songs[position]
+            configureMiniPlayer(song)
+        }
     }
     
     func configure(_ playlist:Playlist){
@@ -28,11 +38,37 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if(miniPlayerView.isHidden == true){
+            miniPlayerView.isHidden = false
+        }
+        let position = indexPath.row
+        let song = songs[position]
+        miniPlayer?.configure(song, miniPlayerView)
+        if let player = MusicController.shared.player{
+            if (player.isPlaying){
+                player.stop()
+            }
+        }
+        MusicController.shared.songs = songs
+        MusicController.shared.position = indexPath.row
+        MusicController.shared.configure(songs, indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistViewControllerCell.identifier, for: indexPath) as! PlaylistViewControllerCell
         cell.configure(songs[indexPath.row])
         return cell
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "nowPlayingBar"){
+            if let destination = segue.destination as? MiniPlayerViewController {
+                miniPlayer = destination
+            }
+        }
+    }
+    func configureMiniPlayer(_ song:Song){
+        if let miniplayer = miniPlayer{
+            miniplayer.configure(song, miniPlayerView)
+        }
     }
 }

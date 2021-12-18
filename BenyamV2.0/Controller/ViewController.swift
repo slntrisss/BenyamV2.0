@@ -83,7 +83,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             self.table.reloadData()
         }
-        
+        if let _ = MusicController.shared.player{
+            if(mainView.isHidden == true){
+                mainView.isHidden = false
+            }
+            let position = MusicController.shared.position
+            let song = MusicController.shared.songs[position]
+            self.miniPlayer?.configure(song, self.mainView)
+        }
+        else{
+            mainView.isHidden = true
+        }
     }
     @objc func gestureRecognized(_ gesture: UITapGestureRecognizer){
         guard let vc = storyboard?.instantiateViewController(identifier: "player")
@@ -110,6 +120,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 player.stop()
             }
         }
+        MusicController.shared.songs = songs
+        MusicController.shared.position = indexPath.row
         MusicController.shared.configure(songs, indexPath.row)
         let gestureRecognizer = UITapGestureRecognizer(target: self,
                                                        action: #selector(gestureRecognized(_ :)))

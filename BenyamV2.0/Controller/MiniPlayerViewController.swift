@@ -21,6 +21,7 @@ class MiniPlayerViewController:UIViewController {
         let player = MusicController.shared.player
         if let player = player{
             player.stop()
+            MusicController.shared.player = nil
         }
         miniPlayerView?.isHidden = true
     }
@@ -43,5 +44,14 @@ class MiniPlayerViewController:UIViewController {
         artistName.text = song.artistName
         btnPlayOrPause.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
         self.miniPlayerView = miniPlayerView
+        let player = MusicController.shared.player
+        if let player = player{
+            if player.isPlaying{
+                btnPlayOrPause.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
+            }
+            else{
+                btnPlayOrPause.setBackgroundImage(UIImage(systemName: "play.fill"), for: .normal)
+            }
+        }
     }
 }
