@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import Firebase
 class MusicController{
     static let shared = MusicController()
     var player:AVAudioPlayer?
@@ -14,24 +15,27 @@ class MusicController{
     var position = 0
     func configure(_ songs:[Song], _ position:Int){
         let song = songs[position]
-        print(song.songName)
-        let urlString = Bundle.main.path(forResource: song.fileName, ofType: "m4a")
-        let audioSession = AVAudioSession.sharedInstance()
-        do{
-            try audioSession.setCategory(.playback)
-            try audioSession.setMode(.default)
-            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-            guard let urlString = urlString else{
-                return
+        
+        
+        let pathString = "music/" + song.fileName + ".m4a"
+        print(pathString)
+        let storageReference = Storage.storage().reference().child(pathString)
+        let fileUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+
+        guard let fileUrl = fileUrls.first?.appendingPathComponent(pathString) else {
+            return
+        }
+
+        let downloadTask = storageReference.write(toFile: fileUrl)
+
+        downloadTask.observe(.success) { _ in
+            do {
+                self.player = try AVAudioPlayer(contentsOf: fileUrl)
+                self.player?.prepareToPlay()
+                self.player?.play()
+            } catch let error {
+                print(error.localizedDescription)
             }
-            player = try AVAudioPlayer(contentsOf: URL(string: urlString)!)
-            guard let player = player else{
-                return
-            }
-            player.play()
-            player.setVolume(audioSession.outputVolume, fadeDuration: .infinity)
-        }catch{
-            print("error")
         }
     }
 }

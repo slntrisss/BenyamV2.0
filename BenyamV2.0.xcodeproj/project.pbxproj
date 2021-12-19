@@ -9,11 +9,6 @@
 /* Begin PBXBuildFile section */
 		4FE2FFA47B9A852CD9DE8EE6 /* Pods_BenyamV2_0Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70BBB496B11B7C26AEBC01FB /* Pods_BenyamV2_0Tests.framework */; };
 		6128FBC7276DF6CC007C6BBB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6128FBC6276DF6CB007C6BBB /* GoogleService-Info.plist */; };
-		6128FBD7276E05AB007C6BBB /* Just_For_Me.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6128FBD2276E05AA007C6BBB /* Just_For_Me.m4a */; };
-		6128FBD8276E05AB007C6BBB /* Humble.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6128FBD3276E05AB007C6BBB /* Humble.m4a */; };
-		6128FBD9276E05AB007C6BBB /* Control_The_World.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6128FBD4276E05AB007C6BBB /* Control_The_World.m4a */; };
-		6128FBDA276E05AB007C6BBB /* Lose_Control.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6128FBD5276E05AB007C6BBB /* Lose_Control.m4a */; };
-		6128FBDB276E05AB007C6BBB /* Shivers.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6128FBD6276E05AB007C6BBB /* Shivers.m4a */; };
 		614917772760B8F60029EFD5 /* MiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614917762760B8F60029EFD5 /* MiniPlayerViewController.swift */; };
 		614917792760D13D0029EFD5 /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614917782760D13D0029EFD5 /* PlaylistViewController.swift */; };
 		6149177D2760E5B40029EFD5 /* PlaylistViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149177C2760E5B40029EFD5 /* PlaylistViewControllerCell.swift */; };
@@ -59,11 +54,6 @@
 		2DA869F29465AD77B2E43DD5 /* Pods-BenyamV2.0Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BenyamV2.0Tests.debug.xcconfig"; path = "Target Support Files/Pods-BenyamV2.0Tests/Pods-BenyamV2.0Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		51C84A88975C41BECD85AF1D /* Pods_BenyamV2_0.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BenyamV2_0.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6128FBC6276DF6CB007C6BBB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		6128FBD2276E05AA007C6BBB /* Just_For_Me.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Just_For_Me.m4a; sourceTree = "<group>"; };
-		6128FBD3276E05AB007C6BBB /* Humble.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Humble.m4a; sourceTree = "<group>"; };
-		6128FBD4276E05AB007C6BBB /* Control_The_World.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Control_The_World.m4a; sourceTree = "<group>"; };
-		6128FBD5276E05AB007C6BBB /* Lose_Control.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lose_Control.m4a; sourceTree = "<group>"; };
-		6128FBD6276E05AB007C6BBB /* Shivers.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Shivers.m4a; sourceTree = "<group>"; };
 		614917762760B8F60029EFD5 /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerViewController.swift; sourceTree = "<group>"; };
 		614917782760D13D0029EFD5 /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
 		6149177C2760E5B40029EFD5 /* PlaylistViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewControllerCell.swift; sourceTree = "<group>"; };
@@ -143,11 +133,6 @@
 		616C3074276BBE5500EE5C11 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				6128FBD4276E05AB007C6BBB /* Control_The_World.m4a */,
-				6128FBD3276E05AB007C6BBB /* Humble.m4a */,
-				6128FBD2276E05AA007C6BBB /* Just_For_Me.m4a */,
-				6128FBD5276E05AB007C6BBB /* Lose_Control.m4a */,
-				6128FBD6276E05AB007C6BBB /* Shivers.m4a */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -365,12 +350,7 @@
 				6128FBC7276DF6CC007C6BBB /* GoogleService-Info.plist in Resources */,
 				61DE8C062754C4F7007CC246 /* LaunchScreen.storyboard in Resources */,
 				61DE8C032754C4F7007CC246 /* Assets.xcassets in Resources */,
-				6128FBDB276E05AB007C6BBB /* Shivers.m4a in Resources */,
-				6128FBDA276E05AB007C6BBB /* Lose_Control.m4a in Resources */,
 				61DE8C012754C4F5007CC246 /* Main.storyboard in Resources */,
-				6128FBD7276E05AB007C6BBB /* Just_For_Me.m4a in Resources */,
-				6128FBD9276E05AB007C6BBB /* Control_The_World.m4a in Resources */,
-				6128FBD8276E05AB007C6BBB /* Humble.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
