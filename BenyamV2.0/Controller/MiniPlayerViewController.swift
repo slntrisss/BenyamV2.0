@@ -18,16 +18,16 @@ class MiniPlayerViewController:UIViewController {
         super.viewDidLoad()
     }
     @IBAction func removeAndStopAudio(_ sender: Any) {
-        let player = MusicController.shared.player
+        let player = PlayerViewController.shared.player
         if let player = player{
             player.stop()
-            MusicController.shared.player = nil
+            PlayerViewController.shared.player = nil
         }
         miniPlayerView?.isHidden = true
     }
     
     @IBAction func playOrPauseAudio(_ sender: Any) {
-        let player = MusicController.shared.player
+        let player = PlayerViewController.shared.player
         if let player = player{
             if player.isPlaying{
                 player.pause()
@@ -44,7 +44,7 @@ class MiniPlayerViewController:UIViewController {
         artistName.text = song.artistName
         btnPlayOrPause.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
         self.miniPlayerView = miniPlayerView
-        let player = MusicController.shared.player
+        let player = PlayerViewController.shared.player
         if let player = player{
             if player.isPlaying{
                 btnPlayOrPause.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)

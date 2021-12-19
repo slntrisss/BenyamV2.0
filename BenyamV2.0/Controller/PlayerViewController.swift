@@ -6,7 +6,9 @@
 //
 import UIKit
 import AVFoundation
+import Firebase
 class PlayerViewController:UIViewController{
+    static let shared = PlayerViewController()
     var player:AVAudioPlayer?
     var songs:[Song] = []
     var position = 0
@@ -22,8 +24,8 @@ class PlayerViewController:UIViewController{
     var miniPlayer:MiniPlayerViewController?
     override func viewDidLoad() {
         super.viewDidLoad()
-        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSliderInterval), userInfo: nil, repeats: true)
-        guard let player = player else {
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateSliderInterval), userInfo: nil, repeats: true)
+        guard let player = self.player else {
             return
         }
         timeIntervalSlider.maximumValue = Float(player.duration)
@@ -31,13 +33,43 @@ class PlayerViewController:UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configure()
+        if let player = player{
+            print("playing")
+        }
+        else{
+            configure()
+        }
     }
     func configure(){
         let song = songs[position]
         poster.image = UIImage(named: song.coverName)
-        songName.text = song.songName
         artistName.text = song.artistName
+        songName.text = song.songName
+        let pathString = "music/" + song.fileName + ".m4a"
+        print(pathString)
+        let storageReference = Storage.storage().reference().child(pathString)
+        let fileUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+
+        guard let fileUrl = fileUrls.first?.appendingPathComponent(pathString) else {
+            return
+        }
+
+        let downloadTask = storageReference.write(toFile: fileUrl)
+
+        downloadTask.observe(.success) { _ in
+            do {
+                self.player = try AVAudioPlayer(contentsOf: fileUrl)
+                self.player?.prepareToPlay()
+                self.player?.play()
+                guard let player = self.player else{return}
+                DispatchQueue.main.async {
+                    self.timeIntervalSlider.maximumValue = Float(player.duration)
+                }
+                self.player?.setVolume(AVAudioSession.sharedInstance().outputVolume, fadeDuration: .infinity)
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
     }
     @IBAction func pauseOrPlayButton(_ sender: Any) {
         if let player = player{
@@ -94,12 +126,10 @@ class PlayerViewController:UIViewController{
             poster.image = nil
             songName.text = ""
             artistName.text = ""
-            if let _ = MusicController.shared.player{
+            if let _ = self.player{
                 player = nil
-                MusicController.shared.player = nil
-                MusicController.shared.configure(songs, position)
+                configure()
             }
-            configure()
         }
     }
     @IBAction func didTapNextButton(_ sender: Any) {
@@ -110,12 +140,10 @@ class PlayerViewController:UIViewController{
             songName.text = ""
             artistName.text = ""
             
-            if let _ = MusicController.shared.player{
+            if let _ = self.player{
                 player = nil
-                MusicController.shared.player = nil
-                MusicController.shared.configure(songs, position)
+                configure()
             }
-            configure()
         }
     }
     

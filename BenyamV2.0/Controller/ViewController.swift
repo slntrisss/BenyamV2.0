@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var playlists = [Playlist]()
     var playlist:Playlist?
     var songs = [Song]()
+    var playerVC:PlayerViewController?
     var docRef:CollectionReference!
     var position = 0
     override func viewDidLoad() {
@@ -83,12 +84,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             self.table.reloadData()
         }
-        if let _ = MusicController.shared.player{
+        if let _ = PlayerViewController.shared.player{
             if(mainView.isHidden == true){
                 mainView.isHidden = false
             }
-            let position = MusicController.shared.position
-            let song = MusicController.shared.songs[position]
+            let position = PlayerViewController.shared.position
+            let song = PlayerViewController.shared.songs[position]
             self.miniPlayer?.configure(song, self.mainView)
         }
         else{
@@ -100,11 +101,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 as? PlayerViewController else{
             return
         }
-        vc.player = MusicController.shared.player
-        vc.songs = songs
-        vc.position = position
-        vc.miniPlayer = miniPlayer
-        present(vc, animated: true, completion: nil)
+        if let playerVC = playerVC{
+            present(playerVC, animated: true, completion: nil)
+        }else{
+            present(vc, animated: true, completion: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -115,14 +116,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         position = indexPath.row
         let song = songs[position]
         miniPlayer?.configure(song, mainView)
-        if let player = MusicController.shared.player{
-            if (player.isPlaying){
-                player.stop()
-            }
+        guard let playerInstanceVC = storyboard?.instantiateViewController(identifier: "player") as?
+                PlayerViewController else {
+            return
         }
-        MusicController.shared.songs = songs
-        MusicController.shared.position = indexPath.row
-        MusicController.shared.configure(songs, indexPath.row)
+        if let playerVC = playerVC{
+            playerVC.player = nil
+        }
+        playerVC = playerInstanceVC
+        playerVC?.songs = self.songs
+        playerVC?.position = indexPath.row
+        present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
         let gestureRecognizer = UITapGestureRecognizer(target: self,
                                                        action: #selector(gestureRecognized(_ :)))
         gestureRecognizer.numberOfTapsRequired = 1

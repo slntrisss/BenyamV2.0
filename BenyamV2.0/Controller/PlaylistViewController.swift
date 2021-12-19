@@ -19,10 +19,10 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         if(miniPlayerView.isHidden == false){
             miniPlayerView.isHidden = true
         }
-        if let _ = MusicController.shared.player{
+        if let _ = PlayerViewController.shared.player{
             miniPlayerView.isHidden = false
-            let position = MusicController.shared.position
-            let song = MusicController.shared.songs[position]
+            let position = PlayerViewController.shared.position
+            let song = PlayerViewController.shared.songs[position]
             configureMiniPlayer(song)
         }
     }
@@ -44,14 +44,14 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         let position = indexPath.row
         let song = songs[position]
         miniPlayer?.configure(song, miniPlayerView)
-        if let player = MusicController.shared.player{
+        if let player = PlayerViewController.shared.player{
             if (player.isPlaying){
                 player.stop()
             }
         }
-        MusicController.shared.songs = songs
-        MusicController.shared.position = indexPath.row
-        MusicController.shared.configure(songs, indexPath.row)
+        PlayerViewController.shared.songs = songs
+        PlayerViewController.shared.position = indexPath.row
+        PlayerViewController.shared.configure()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
