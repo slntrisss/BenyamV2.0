@@ -518,12 +518,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" backgroundImage="backward.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="Bpv-cv-oQa" eventType="touchUpInside" id="232-mL-gQ8"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1W-Zz-0cd">
                                 <rect key="frame" x="261" y="625" width="46" height="23.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" backgroundImage="forward.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="didTapNextButton:" destination="Bpv-cv-oQa" eventType="touchUpInside" id="cxs-F3-SR5"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vFg-5G-aKT"/>

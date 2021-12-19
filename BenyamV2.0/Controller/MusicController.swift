@@ -13,10 +13,9 @@ class MusicController{
     var player:AVAudioPlayer?
     var songs:[Song] = []
     var position = 0
+    var playerVC:PlayerViewController?
     func configure(_ songs:[Song], _ position:Int){
         let song = songs[position]
-        
-        
         let pathString = "music/" + song.fileName + ".m4a"
         print(pathString)
         let storageReference = Storage.storage().reference().child(pathString)
@@ -33,6 +32,7 @@ class MusicController{
                 self.player = try AVAudioPlayer(contentsOf: fileUrl)
                 self.player?.prepareToPlay()
                 self.player?.play()
+                self.player?.setVolume(AVAudioSession.sharedInstance().outputVolume, fadeDuration: .infinity)
             } catch let error {
                 print(error.localizedDescription)
             }

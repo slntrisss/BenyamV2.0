@@ -29,9 +29,8 @@ class PlayerViewController:UIViewController{
         timeIntervalSlider.maximumValue = Float(player.duration)
         self.volumeSlider.value = Float(player.volume)
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configure()
     }
     func configure(){
@@ -39,7 +38,6 @@ class PlayerViewController:UIViewController{
         poster.image = UIImage(named: song.coverName)
         songName.text = song.songName
         artistName.text = song.artistName
-        self.pauseOrPlayButton(self)
     }
     @IBAction func pauseOrPlayButton(_ sender: Any) {
         if let player = player{
@@ -89,4 +87,36 @@ class PlayerViewController:UIViewController{
             player.setVolume(value, fadeDuration:.infinity)
         }
     }
+    @IBAction func didTapBackButton(_ sender: Any) {
+        if position > 0{
+            player?.stop()
+            position -= 1
+            poster.image = nil
+            songName.text = ""
+            artistName.text = ""
+            if let _ = MusicController.shared.player{
+                player = nil
+                MusicController.shared.player = nil
+                MusicController.shared.configure(songs, position)
+            }
+            configure()
+        }
+    }
+    @IBAction func didTapNextButton(_ sender: Any) {
+        if position < songs.count - 1{
+            player?.stop()
+            position += 1
+            poster.image = nil
+            songName.text = ""
+            artistName.text = ""
+            
+            if let _ = MusicController.shared.player{
+                player = nil
+                MusicController.shared.player = nil
+                MusicController.shared.configure(songs, position)
+            }
+            configure()
+        }
+    }
+    
 }
