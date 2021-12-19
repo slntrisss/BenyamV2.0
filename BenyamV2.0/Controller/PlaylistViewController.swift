@@ -43,12 +43,7 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         }
         let position = indexPath.row
         let song = songs[position]
-        miniPlayer?.configure(song, miniPlayerView)
-        if let player = PlayerViewController.shared.player{
-            if (player.isPlaying){
-                player.stop()
-            }
-        }
+        //miniPlayer?.configure(song, miniPlayerView)
         PlayerViewController.shared.songs = songs
         PlayerViewController.shared.position = indexPath.row
         PlayerViewController.shared.configure()
@@ -68,7 +63,7 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
     }
     func configureMiniPlayer(_ song:Song){
         if let miniplayer = miniPlayer{
-            miniplayer.configure(song, miniPlayerView)
+            //miniplayer.configure(song, miniPlayerView)
         }
     }
 }

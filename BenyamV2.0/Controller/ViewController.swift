@@ -90,7 +90,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             let position = PlayerViewController.shared.position
             let song = PlayerViewController.shared.songs[position]
-            self.miniPlayer?.configure(song, self.mainView)
         }
         else{
             mainView.isHidden = true
@@ -110,12 +109,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if(mainView.isHidden == true){
-            mainView.isHidden = false
-        }
         position = indexPath.row
         let song = songs[position]
-        miniPlayer?.configure(song, mainView)
         guard let playerInstanceVC = storyboard?.instantiateViewController(identifier: "player") as?
                 PlayerViewController else {
             return
@@ -126,6 +121,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         playerVC = playerInstanceVC
         playerVC?.songs = self.songs
         playerVC?.position = indexPath.row
+        playerVC?.miniPlayerView = mainView
+        playerVC?.miniPlayer = miniPlayer
         present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
         let gestureRecognizer = UITapGestureRecognizer(target: self,
                                                        action: #selector(gestureRecognized(_ :)))

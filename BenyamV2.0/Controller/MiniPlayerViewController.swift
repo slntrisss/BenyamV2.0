@@ -14,11 +14,11 @@ class MiniPlayerViewController:UIViewController {
     @IBOutlet weak var btnPlayOrPause: UIButton!
     @IBOutlet weak var btnClose: UIButton!
     weak var miniPlayerView:UIView?
+    var player:AVAudioPlayer?
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     @IBAction func removeAndStopAudio(_ sender: Any) {
-        let player = PlayerViewController.shared.player
         if let player = player{
             player.stop()
             PlayerViewController.shared.player = nil
@@ -27,7 +27,6 @@ class MiniPlayerViewController:UIViewController {
     }
     
     @IBAction func playOrPauseAudio(_ sender: Any) {
-        let player = PlayerViewController.shared.player
         if let player = player{
             if player.isPlaying{
                 player.pause()
@@ -39,7 +38,8 @@ class MiniPlayerViewController:UIViewController {
             }
         }
     }
-    func configure(_ song:Song, _ miniPlayerView: UIView){
+    func configure(_ song:Song, _ miniPlayerView: UIView, _ player:AVAudioPlayer){
+        self.player = player
         songTitle.text = song.songName
         artistName.text = song.artistName
         btnPlayOrPause.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)

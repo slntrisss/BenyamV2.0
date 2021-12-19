@@ -22,6 +22,7 @@ class PlayerViewController:UIViewController{
     @IBOutlet weak var leftTime: UILabel!
     @IBOutlet weak var volumeSlider: UISlider!
     var miniPlayer:MiniPlayerViewController?
+    weak var miniPlayerView:UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateSliderInterval), userInfo: nil, repeats: true)
@@ -33,7 +34,7 @@ class PlayerViewController:UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let player = player{
+        if let _ = player{
             print("playing")
         }
         else{
@@ -64,6 +65,8 @@ class PlayerViewController:UIViewController{
                 guard let player = self.player else{return}
                 DispatchQueue.main.async {
                     self.timeIntervalSlider.maximumValue = Float(player.duration)
+                    self.miniPlayer?.configure(self.songs[self.position], self.miniPlayerView, self.player!)
+                    self.miniPlayerView.isHidden = false
                 }
                 self.player?.setVolume(AVAudioSession.sharedInstance().outputVolume, fadeDuration: .infinity)
             } catch let error {
