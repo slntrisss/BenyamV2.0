@@ -7,7 +7,7 @@
 
 import UIKit
 import Firebase
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler, NestedViewControllerHandler {
     @IBOutlet weak var table:UITableView!
     @IBOutlet weak var mainView:UIView!
     var miniPlayer:MiniPlayerViewController?
@@ -110,7 +110,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         position = indexPath.row
-        let song = songs[position]
         guard let playerInstanceVC = storyboard?.instantiateViewController(identifier: "player") as?
                 PlayerViewController else {
             return
@@ -118,11 +117,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let playerVC = playerVC{
             playerVC.player = nil
         }
+        ModelObject.sharedIntance.VC?.player?.stop()
         playerVC = playerInstanceVC
         playerVC?.songs = self.songs
         playerVC?.position = indexPath.row
         playerVC?.miniPlayerView = mainView
         playerVC?.miniPlayer = miniPlayer
+        ModelObject.sharedIntance.VC = playerVC
         present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
         let gestureRecognizer = UITapGestureRecognizer(target: self,
                                                        action: #selector(gestureRecognized(_ :)))
@@ -146,9 +147,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 return
             }
             if let playlist = playlist {
-                playlistVC.configure(playlist)
+                if let playerVC = playerVC{
+                    playlistVC.configure(playlist, playerVC, miniPlayer!)
+                }
+                else{
+                    playlistVC.configure(playlist)
+                }
             }
         }
+        
+    }
+    
+    func configure(_ playerVC:PlayerViewController){
+        self.playerVC = playerVC
     }
     
     func pushToSuperView(withData: Playlist) {
@@ -173,5 +184,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return 240
         }
         return 60
+    }
+    func pushToSuperViewController(withData: PlayerViewController) {
+        self.playerVC = withData
     }
 }

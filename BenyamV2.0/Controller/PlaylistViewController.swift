@@ -12,6 +12,8 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var navBarItem: UINavigationItem!
     weak var miniPlayer:MiniPlayerViewController?
     var songs:[Song] = []
+    var playerVC:PlayerViewController?
+    weak var delegate:NestedViewControllerHandler?
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -19,12 +21,20 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         if(miniPlayerView.isHidden == false){
             miniPlayerView.isHidden = true
         }
-        if let _ = PlayerViewController.shared.player{
-            miniPlayerView.isHidden = false
-            let position = PlayerViewController.shared.position
-            let song = PlayerViewController.shared.songs[position]
-            configureMiniPlayer(song)
+        if let playerVC = playerVC{
+            if let player = playerVC.player{
+                if player.isPlaying{
+                    miniPlayerView.isHidden = false
+                }
+            }
         }
+    }
+    
+    func configure(_ playlist:Playlist, _ playerVC: PlayerViewController, _ miniPlayer:MiniPlayerViewController){
+        self.songs = playlist.songs
+        self.playerVC = playerVC
+        self.miniPlayer = miniPlayer
+        navBarItem.title = playlist.name
     }
     
     func configure(_ playlist:Playlist){
@@ -41,12 +51,18 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         if(miniPlayerView.isHidden == true){
             miniPlayerView.isHidden = false
         }
-        let position = indexPath.row
-        let song = songs[position]
-        //miniPlayer?.configure(song, miniPlayerView)
-        PlayerViewController.shared.songs = songs
-        PlayerViewController.shared.position = indexPath.row
-        PlayerViewController.shared.configure()
+        guard let playerInstanceVC = storyboard?.instantiateViewController(identifier: "player") as? PlayerViewController else{return}
+        if let playerVC = playerVC{
+            playerVC.player?.stop()
+            playerVC.player = nil
+        }
+        playerVC = playerInstanceVC
+        playerVC?.songs = self.songs
+        playerVC?.position = indexPath.row
+        playerVC?.miniPlayerView = miniPlayerView
+        playerVC?.miniPlayer = miniPlayer
+        ModelObject.sharedIntance.VC = playerVC
+        present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
