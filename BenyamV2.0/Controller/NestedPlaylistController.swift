@@ -30,6 +30,7 @@ class NestedPlaylistController:UIViewController,UITableViewDelegate, UITableView
         playerVC?.songs = self.songs
         playerVC?.position = indexPath.row
         playerVC?.configure()
+        self.tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -49,6 +49,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         i += 1
                     }
                     self.songs = songArray
+                    ModelObject.sharedIntance.songs = self.songs
                 }
                 else if(document.documentID == "playlists"){
                     let playlistCount:Int = document.data().count
@@ -82,6 +83,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         i += 1
                     }
                     self.playlists = playlistArray
+                    ModelObject.sharedIntance.playlists = self.playlists
                 }
             }
             self.table.reloadData()
@@ -90,10 +92,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if player.isPlaying{
                         self.miniPlayer = ModelObject.sharedIntance.miniPlayer
                         self.miniPlayer?.configure(self.songs[vc.position], self.mainView, player)
-                        print("----------")
-                        print("----------")
-                        print("----------")
-                        print("----------")
                     }
                 }
             }
@@ -179,8 +177,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return playlistsCell
         }
         let musicCell = tableView.dequeueReusableCell(withIdentifier: MusicCell.identifier, for: indexPath) as! MusicCell
+        print(indexPath.row)
         musicCell.configure(songs[indexPath.row])
         return musicCell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            tableView.beginUpdates()
+            let song = "song\(indexPath.row+1)"
+            docRef.document(song).delete(){er in
+                if let _ = er{
+                    print("error Occured")
+                }
+                else{
+                    print("Succesfully deleted")
+                }
+            }
+            docRef.document("songs").setData([song: FieldValue.delete()], merge: true)
+            songs.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

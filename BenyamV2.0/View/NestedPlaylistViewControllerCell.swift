@@ -22,14 +22,14 @@ class NestedPlaylistViewControllerCell:UITableViewCell{
         self.artistName.text = song.artistName
         self.playerVC = playerVC
         playOrPauseButton.isHidden = true
-        if let player = playerVC.player{
-            if song.songName == playerVC.songs[playerVC.position].songName{
-                if(player.isPlaying){
-                    playOrPauseButton.isHidden = false
-                    playOrPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle"), for: .normal)
-                }
-            }
-        }
+//        if let player = playerVC.player{
+//            if song.songName == playerVC.songs[playerVC.position].songName{
+//                if(player.isPlaying){
+//                    playOrPauseButton.isHidden = false
+//                    playOrPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle"), for: .normal)
+//                }
+//            }
+//        }
     }
     @IBAction func didTapPlayOrPauseButton(_ sender: Any) {
         if(playerVC!.player!.isPlaying){

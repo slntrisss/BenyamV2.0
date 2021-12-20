@@ -10,4 +10,6 @@ class ModelObject{
     static let sharedIntance = ModelObject()
     var VC:PlayerViewController?
     var miniPlayer:MiniPlayerViewController?
+    var songs:[Song] = []
+    var playlists = [Playlist]()
 }

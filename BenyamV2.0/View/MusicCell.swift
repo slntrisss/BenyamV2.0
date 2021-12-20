@@ -12,21 +12,17 @@ class MusicCell: UITableViewCell {
     @IBOutlet weak var coverImage:UIImageView!
     @IBOutlet weak var songTitle: UILabel!
     @IBOutlet weak var artistName:UILabel!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    static func nib() -> UINib{
-        return UINib(nibName: "MusicCell", bundle: nil)
-    }
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
     func configure(_ song:Song){
         coverImage.image = UIImage(named: song.coverName)
         songTitle.text = song.songName
         artistName.text = song.artistName
+        print("---------")
+        print("---------")
+        print("---------")
+        print("configuring \(song.songName)")
+        print("---------")
+        print("---------")
         resizeImageView()
     }
     

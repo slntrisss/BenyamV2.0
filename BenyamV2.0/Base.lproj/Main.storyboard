@@ -391,7 +391,7 @@
         <!--Player View Controller-->
         <scene sceneID="iwo-dP-EUJ">
             <objects>
-                <viewController storyboardIdentifier="player" modalPresentationStyle="currentContext" id="Bpv-cv-oQa" customClass="PlayerViewController" customModule="BenyamV2_0" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="player" id="Bpv-cv-oQa" customClass="PlayerViewController" customModule="BenyamV2_0" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JTn-WZ-rwf" userLabel="UIView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -485,6 +485,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" name="identSeparatorColor"/>
                                 <state key="normal" backgroundImage="shuffle" catalog="system"/>
+                                <connections>
+                                    <action selector="didTapShuffleButton:" destination="Bpv-cv-oQa" eventType="touchUpInside" id="4MM-zS-umN"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEk-Fe-tgl">
                                 <rect key="frame" x="195" y="484.5" width="10" height="10"/>
@@ -548,6 +551,7 @@
                         <outlet property="playedTime" destination="LVc-ac-CaQ" id="Lhq-xn-jhF"/>
                         <outlet property="playerView" destination="JTn-WZ-rwf" id="2im-Lr-i3C"/>
                         <outlet property="poster" destination="uEH-Qc-arx" id="OQ6-ww-D9h"/>
+                        <outlet property="shuffleButton" destination="ETe-jT-uRk" id="6Rb-Lj-a6e"/>
                         <outlet property="songName" destination="JxU-IC-q0z" id="gRk-Rz-9jy"/>
                         <outlet property="timeIntervalSlider" destination="f7j-10-F7F" id="OiL-vw-Cj1"/>
                         <outlet property="volumeSlider" destination="kMz-eF-I77" id="WSh-7H-sbs"/>

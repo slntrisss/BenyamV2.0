@@ -21,7 +21,9 @@ class PlayerViewController:UIViewController{
     @IBOutlet weak var playedTime: UILabel!
     @IBOutlet weak var leftTime: UILabel!
     @IBOutlet weak var volumeSlider: UISlider!
+    @IBOutlet weak var shuffleButton: UIButton!
     var miniPlayer:MiniPlayerViewController?
+    var shuffled = false
     weak var miniPlayerView:UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +44,7 @@ class PlayerViewController:UIViewController{
         }
     }
     func configure(){
-        let song = songs[position]
+        let song = self.songs[position]
         poster.image = UIImage(named: song.coverName)
         artistName.text = song.artistName
         songName.text = song.songName
@@ -162,6 +164,36 @@ class PlayerViewController:UIViewController{
             if let destination = segue.destination as? NestedPlaylistController{
                 destination.playerVC = self
             }
+        }
+    }
+    @IBAction func didTapShuffleButton(_ sender: Any) {
+        if(shuffled){
+            shuffleButton.tintColor = UIColor(named: "identSeparatorColor")
+            self.songs = ModelObject.sharedIntance.songs
+            shuffled = false
+            print("-----------")
+            print("-----------")
+            print("-----------")
+            print("-----------")
+            print("original")
+        }
+        else{
+            shuffleButton.tintColor = .blue
+            var shuffledSongs = [Song]()
+            for song in songs{
+                shuffledSongs.append(song)
+            }
+            shuffledSongs.shuffle()
+            let temp = shuffledSongs[0]
+            shuffledSongs[0] = shuffledSongs[position]
+            shuffledSongs[position] = temp
+            shuffled = true
+            self.songs = shuffledSongs
+            print("-----------")
+            print("-----------")
+            print("-----------")
+            print("-----------")
+            print("shuffled")
         }
     }
 }
