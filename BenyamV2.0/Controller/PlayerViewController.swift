@@ -149,5 +149,14 @@ class PlayerViewController:UIViewController{
             }
         }
     }
-    
+    @IBAction func didTapLyricsButton(_ sender: Any) {
+        performSegue(withIdentifier: "lyrics", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "lyrics"){
+            if let destination = segue.destination as? LyricsViewController{
+                destination.playerVC = self
+            }
+        }
+    }
 }
