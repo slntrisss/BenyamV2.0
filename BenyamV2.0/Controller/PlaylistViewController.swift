@@ -27,6 +27,7 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
                     miniPlayerView.isHidden = false
                 }
             }
+            miniPlayer?.configure(songs[playerVC.position], miniPlayerView, playerVC.player!)
         }
     }
     
@@ -62,6 +63,7 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         playerVC?.miniPlayerView = miniPlayerView
         playerVC?.miniPlayer = miniPlayer
         ModelObject.sharedIntance.VC = playerVC
+        ModelObject.sharedIntance.miniPlayer = miniPlayer
         present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
     }
     
@@ -75,11 +77,6 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
             if let destination = segue.destination as? MiniPlayerViewController {
                 miniPlayer = destination
             }
-        }
-    }
-    func configureMiniPlayer(_ song:Song){
-        if let miniplayer = miniPlayer{
-            //miniplayer.configure(song, miniPlayerView)
         }
     }
 }

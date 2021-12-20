@@ -83,16 +83,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
             self.table.reloadData()
-        }
-        if let _ = PlayerViewController.shared.player{
-            if(mainView.isHidden == true){
-                mainView.isHidden = false
+            if let vc = ModelObject.sharedIntance.VC{
+                if let player = vc.player{
+                    if player.isPlaying{
+                        self.miniPlayer = ModelObject.sharedIntance.miniPlayer
+                        self.miniPlayer?.configure(self.songs[vc.position], self.mainView, player)
+                        print("----------")
+                        print("----------")
+                        print("----------")
+                        print("----------")
+                    }
+                }
             }
-            let position = PlayerViewController.shared.position
-            let song = PlayerViewController.shared.songs[position]
-        }
-        else{
-            mainView.isHidden = true
         }
     }
     @objc func gestureRecognized(_ gesture: UITapGestureRecognizer){

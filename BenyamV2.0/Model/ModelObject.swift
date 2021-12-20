@@ -9,4 +9,5 @@ import Foundation
 class ModelObject{
     static let sharedIntance = ModelObject()
     var VC:PlayerViewController?
+    var miniPlayer:MiniPlayerViewController?
 }
