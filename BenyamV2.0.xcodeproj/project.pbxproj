@@ -15,6 +15,8 @@
 		6149177F276140C00029EFD5 /* NestedCellHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149177E276140C00029EFD5 /* NestedCellHandler.swift */; };
 		6167D4D22770B6CD00FA95D8 /* LyricsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6167D4D12770B6CD00FA95D8 /* LyricsViewController.swift */; };
 		6167D4D42770B7A900FA95D8 /* LyricsMiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6167D4D32770B7A900FA95D8 /* LyricsMiniPlayerViewController.swift */; };
+		6167D4D92771061B00FA95D8 /* NestedPlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6167D4D82771061B00FA95D8 /* NestedPlaylistController.swift */; };
+		6167D4DB2771075900FA95D8 /* NestedPlaylistViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6167D4DA2771075900FA95D8 /* NestedPlaylistViewControllerCell.swift */; };
 		616C3082276BE2F000EE5C11 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616C3081276BE2F000EE5C11 /* PlayerViewController.swift */; };
 		619B92CB276FEB6C00A3B9E6 /* ModelObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619B92CA276FEB6C00A3B9E6 /* ModelObject.swift */; };
 		61A186E5275BE846005AC957 /* MusicDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A186E4275BE846005AC957 /* MusicDAO.swift */; };
@@ -62,6 +64,8 @@
 		6149177E276140C00029EFD5 /* NestedCellHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedCellHandler.swift; sourceTree = "<group>"; };
 		6167D4D12770B6CD00FA95D8 /* LyricsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsViewController.swift; sourceTree = "<group>"; };
 		6167D4D32770B7A900FA95D8 /* LyricsMiniPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsMiniPlayerViewController.swift; sourceTree = "<group>"; };
+		6167D4D82771061B00FA95D8 /* NestedPlaylistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedPlaylistController.swift; sourceTree = "<group>"; };
+		6167D4DA2771075900FA95D8 /* NestedPlaylistViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedPlaylistViewControllerCell.swift; sourceTree = "<group>"; };
 		616C3081276BE2F000EE5C11 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		619B92CA276FEB6C00A3B9E6 /* ModelObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelObject.swift; sourceTree = "<group>"; };
 		61A186E4275BE846005AC957 /* MusicDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicDAO.swift; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 				61DE8BFD2754C4F5007CC246 /* ViewController.swift */,
 				614917762760B8F60029EFD5 /* MiniPlayerViewController.swift */,
 				616C3081276BE2F000EE5C11 /* PlayerViewController.swift */,
+				6167D4D82771061B00FA95D8 /* NestedPlaylistController.swift */,
 				6167D4D32770B7A900FA95D8 /* LyricsMiniPlayerViewController.swift */,
 				6167D4D12770B6CD00FA95D8 /* LyricsViewController.swift */,
 				614917782760D13D0029EFD5 /* PlaylistViewController.swift */,
@@ -212,6 +217,7 @@
 				61A186F2275E2B68005AC957 /* PlaylistCell.swift */,
 				61A186F6275E2DE1005AC957 /* MusicCell.swift */,
 				6149177C2760E5B40029EFD5 /* PlaylistViewControllerCell.swift */,
+				6167D4DA2771075900FA95D8 /* NestedPlaylistViewControllerCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -476,6 +482,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6167D4D92771061B00FA95D8 /* NestedPlaylistController.swift in Sources */,
 				6149177D2760E5B40029EFD5 /* PlaylistViewControllerCell.swift in Sources */,
 				6149177F276140C00029EFD5 /* NestedCellHandler.swift in Sources */,
 				61F1C7D02755CA76001FEFB5 /* Song.swift in Sources */,
@@ -492,6 +499,7 @@
 				61F1C7CE2755CA65001FEFB5 /* Playlist.swift in Sources */,
 				614917772760B8F60029EFD5 /* MiniPlayerViewController.swift in Sources */,
 				619B92CB276FEB6C00A3B9E6 /* ModelObject.swift in Sources */,
+				6167D4DB2771075900FA95D8 /* NestedPlaylistViewControllerCell.swift in Sources */,
 				61A186F0275E29B6005AC957 /* PlaylistTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

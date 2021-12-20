@@ -158,5 +158,10 @@ class PlayerViewController:UIViewController{
                 destination.playerVC = self
             }
         }
+        if(segue.identifier == "NestedPlaylistController"){
+            if let destination = segue.destination as? NestedPlaylistController{
+                destination.playerVC = self
+            }
+        }
     }
 }
