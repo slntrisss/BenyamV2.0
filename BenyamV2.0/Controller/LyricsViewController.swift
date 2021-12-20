@@ -20,13 +20,13 @@ class LyricsViewController:UIViewController{
         let songs = playerVC.songs
         let position = playerVC.position
         let song = songs[position]
-        lyrics.text = song.artistName
+        lyrics.text = correctLyrics(song.lyrics)
         lyricsMiniPlayer?.configure(song)
         lyricsMiniPlayer?.playerVC = playerVC
         lyricsMiniPlayer?.lyricsViewController = self
     }
     func configure(_ song:Song){
-        lyrics.text = song.artistName
+        lyrics.text = correctLyrics(song.lyrics)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "lyricsMiniPlayer"){
@@ -34,5 +34,18 @@ class LyricsViewController:UIViewController{
                 lyricsMiniPlayer = destination
             }
         }
+    }
+    func correctLyrics(_ text:String) -> String{
+        var lyrics = ""
+        for i in 0..<text.count {
+            let index = text.index(text.startIndex, offsetBy: i)
+            if(text[index] == "|"){
+                lyrics += "\n"
+            }
+            else{
+                lyrics += "\(text[index])"
+            }
+        }
+        return lyrics
     }
 }

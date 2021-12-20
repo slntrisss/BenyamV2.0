@@ -28,7 +28,8 @@ class MusicDAO{
                             let artistName = song["artistName"] as? String ?? ""
                             let coverName = song["coverName"] as? String ?? ""
                             let fileName = song["fileName"] as? String ?? ""
-                            self.songs.append(Song(artistName, songName, coverName, fileName))
+                            let lyrics = song["Lyrics"] as? String ?? ""
+                            self.songs.append(Song(artistName, songName, coverName, fileName, lyrics))
                         }
                         i += 1
                     }
@@ -53,7 +54,8 @@ class MusicDAO{
                                         let artistName = song["artistName"] as? String ?? ""
                                         let coverName = song["coverName"] as? String ?? ""
                                         let fileName = song["fileName"] as? String ?? ""
-                                        songArray.append(Song(artistName, songName, coverName, fileName))
+                                        let lyrics = song["lyrics"] as? String ?? ""
+                                        songArray.append(Song(artistName, songName, coverName, fileName, lyrics))
                                     }
                                     j += 1
                                 }

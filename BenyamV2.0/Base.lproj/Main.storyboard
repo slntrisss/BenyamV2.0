@@ -548,7 +548,7 @@
                         <outlet property="songName" destination="JxU-IC-q0z" id="gRk-Rz-9jy"/>
                         <outlet property="timeIntervalSlider" destination="f7j-10-F7F" id="OiL-vw-Cj1"/>
                         <outlet property="volumeSlider" destination="kMz-eF-I77" id="WSh-7H-sbs"/>
-                        <segue destination="nsz-SX-Dl7" kind="presentation" identifier="lyrics" id="9I8-Qw-eBQ"/>
+                        <segue destination="nsz-SX-Dl7" kind="showDetail" identifier="lyrics" id="gFg-cM-Pzh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TiE-6j-4f8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -564,7 +564,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6MA-gg-Tul">
-                                <rect key="frame" x="0.0" y="748" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="694" width="414" height="60"/>
                                 <connections>
                                     <segue destination="aRz-CA-ABU" kind="embed" identifier="lyricsMiniPlayer" id="b5Y-px-Igz"/>
                                 </connections>
@@ -635,7 +635,7 @@ And when you're close up, give me the shivers
 Oh baby, you wanna dance 'til the sunlight cracks
 And when they say the party's over, then we'll bring it right back, hey</mutableString>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
@@ -721,7 +721,7 @@ And when they say the party's over, then we'll bring it right back, hey</mutable
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5la-fr-keC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4985.507246376812" y="199.55357142857142"/>
+            <point key="canvasLocation" x="5030" y="88"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

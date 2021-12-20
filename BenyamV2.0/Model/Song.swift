@@ -11,10 +11,12 @@ class Song{
     let songName:String
     let coverName:String
     let fileName:String
-    init(_ artistName:String, _ songName:String, _ coverName:String, _ fileName:String){
+    let lyrics:String
+    init(_ artistName:String, _ songName:String, _ coverName:String, _ fileName:String, _ lyrics:String){
         self.artistName = artistName
         self.songName = songName
         self.coverName = coverName
         self.fileName = fileName
+        self.lyrics = lyrics
     }
 }

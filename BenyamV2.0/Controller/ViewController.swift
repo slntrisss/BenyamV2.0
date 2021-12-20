@@ -43,7 +43,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             let artistName = song["artistName"] as? String ?? ""
                             let coverName = song["coverName"] as? String ?? ""
                             let fileName = song["fileName"] as? String ?? ""
-                            songArray.append(Song(artistName, songName, coverName, fileName))
+                            let lyrics = song["lyrics"] as? String ?? ""
+                            songArray.append(Song(artistName, songName, coverName, fileName, lyrics))
                         }
                         i += 1
                     }
@@ -70,7 +71,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                         let artistName = song["artistName"] as? String ?? ""
                                         let coverName = song["coverName"] as? String ?? ""
                                         let fileName = song["fileName"] as? String ?? ""
-                                        songArray.append(Song(artistName, songName, coverName, fileName))
+                                        let lyrics = song["lyrics"] as? String ?? ""
+                                        songArray.append(Song(artistName, songName, coverName, fileName, lyrics))
                                     }
                                     j += 1
                                 }
