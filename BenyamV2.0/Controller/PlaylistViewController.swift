@@ -13,7 +13,6 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
     weak var miniPlayer:MiniPlayerViewController?
     var songs:[Song] = []
     var playerVC:PlayerViewController?
-    weak var delegate:NestedViewControllerHandler?
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -67,7 +66,7 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         playerVC?.position = indexPath.row
         playerVC?.miniPlayerView = miniPlayerView
         playerVC?.miniPlayer = miniPlayer
-        delegate?.pushToSuperView(withViewController: playerVC!)
+        ModelObject.sharedIntance.VC = playerVC
         present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
     }
     

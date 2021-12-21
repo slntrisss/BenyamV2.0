@@ -7,8 +7,7 @@
 
 import UIKit
 import Firebase
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler,
-                      NestedViewControllerHandler{
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler{
     @IBOutlet weak var table:UITableView!
     @IBOutlet weak var mainView:UIView!
     var miniPlayer:MiniPlayerViewController?
@@ -88,6 +87,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
             self.table.reloadData()
+            if let playerVC = ModelObject.sharedIntance.VC{
+                if playerVC.miniPlayer?.miniPlayerView?.isHidden == false{
+                    if(self.mainView.isHidden == true){
+                        self.mainView.isHidden = false
+                    }
+                    self.playerVC = playerVC
+                    self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.mainView, playerVC.player!)
+                }
+            }
         }
     }
     @objc func gestureRecognized(_ gesture: UITapGestureRecognizer){
@@ -160,20 +168,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func pushToSuperView(withData: Playlist) {
         playlist = withData
         performSegue(withIdentifier: "playlistViewController", sender: self)
-    }
-    
-    func pushToSuperView(withViewController: PlayerViewController) {
-        self.playerVC = withViewController
-        if let playerVC = self.playerVC{
-            print("-----------")
-            print("-----------")
-            print("ViewController")
-            print("-----------")
-            print("-----------")
-            if playerVC.miniPlayer?.miniPlayerView?.isHidden == false{
-                self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.mainView, playerVC.player!)
-            }
-        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

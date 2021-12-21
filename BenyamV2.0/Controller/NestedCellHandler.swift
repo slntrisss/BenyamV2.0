@@ -9,6 +9,3 @@ import Foundation
 protocol NestedCellHandler:class {
     func pushToSuperView(withData:Playlist)
 }
-protocol NestedViewControllerHandler:class{
-    func pushToSuperView(withViewController:PlayerViewController)
-}
