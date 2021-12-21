@@ -17,12 +17,6 @@ class MusicCell: UITableViewCell {
         coverImage.image = UIImage(named: song.coverName)
         songTitle.text = song.songName
         artistName.text = song.artistName
-        print("---------")
-        print("---------")
-        print("---------")
-        print("configuring \(song.songName)")
-        print("---------")
-        print("---------")
         resizeImageView()
     }
     

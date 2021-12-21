@@ -171,11 +171,6 @@ class PlayerViewController:UIViewController{
             shuffleButton.tintColor = UIColor(named: "identSeparatorColor")
             self.songs = ModelObject.sharedIntance.songs
             shuffled = false
-            print("-----------")
-            print("-----------")
-            print("-----------")
-            print("-----------")
-            print("original")
         }
         else{
             shuffleButton.tintColor = .blue
@@ -189,11 +184,6 @@ class PlayerViewController:UIViewController{
             shuffledSongs[position] = temp
             shuffled = true
             self.songs = shuffledSongs
-            print("-----------")
-            print("-----------")
-            print("-----------")
-            print("-----------")
-            print("shuffled")
         }
     }
 }

@@ -7,7 +7,8 @@
 
 import UIKit
 import Firebase
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler, NestedViewControllerHandler {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler,
+                      NestedViewControllerHandler{
     @IBOutlet weak var table:UITableView!
     @IBOutlet weak var mainView:UIView!
     var miniPlayer:MiniPlayerViewController?
@@ -87,14 +88,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
             self.table.reloadData()
-            if let vc = ModelObject.sharedIntance.VC{
-                if let player = vc.player{
-                    if player.isPlaying{
-                        self.miniPlayer = ModelObject.sharedIntance.miniPlayer
-                        self.miniPlayer?.configure(self.songs[vc.position], self.mainView, player)
-                    }
-                }
-            }
         }
     }
     @objc func gestureRecognized(_ gesture: UITapGestureRecognizer){
@@ -150,7 +143,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             if let playlist = playlist {
                 if let playerVC = playerVC{
-                    playlistVC.configure(playlist, playerVC, miniPlayer!)
+                    playlistVC.configure(playlist, playerVC)
                 }
                 else{
                     playlistVC.configure(playlist)
@@ -168,6 +161,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         playlist = withData
         performSegue(withIdentifier: "playlistViewController", sender: self)
     }
+    
+    func pushToSuperView(withViewController: PlayerViewController) {
+        self.playerVC = withViewController
+        if let playerVC = self.playerVC{
+            print("-----------")
+            print("-----------")
+            print("ViewController")
+            print("-----------")
+            print("-----------")
+            if playerVC.miniPlayer?.miniPlayerView?.isHidden == false{
+                self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.mainView, playerVC.player!)
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if(indexPath.row == 0){
             let playlistsCell = tableView.dequeueReusableCell(withIdentifier: PlaylistTableViewCell.identifier, for: indexPath) as! PlaylistTableViewCell
@@ -177,7 +185,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return playlistsCell
         }
         let musicCell = tableView.dequeueReusableCell(withIdentifier: MusicCell.identifier, for: indexPath) as! MusicCell
-        print(indexPath.row)
         musicCell.configure(songs[indexPath.row])
         return musicCell
     }
@@ -210,8 +217,5 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return 240
         }
         return 60
-    }
-    func pushToSuperViewController(withData: PlayerViewController) {
-        self.playerVC = withData
     }
 }

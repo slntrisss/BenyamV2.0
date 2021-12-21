@@ -21,26 +21,31 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         if(miniPlayerView.isHidden == false){
             miniPlayerView.isHidden = true
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let playerVC = playerVC{
             if let player = playerVC.player{
                 if player.isPlaying{
                     miniPlayerView.isHidden = false
                 }
             }
-            miniPlayer?.configure(songs[playerVC.position], miniPlayerView, playerVC.player!)
+            if playerVC.miniPlayer?.miniPlayerView?.isHidden == false{
+                self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.miniPlayerView, playerVC.player!)
+            }
         }
     }
-    
-    func configure(_ playlist:Playlist, _ playerVC: PlayerViewController, _ miniPlayer:MiniPlayerViewController){
+    func configure(_ playlist:Playlist, _ playerVC: PlayerViewController){
         self.songs = playlist.songs
         self.playerVC = playerVC
-        self.miniPlayer = miniPlayer
         navBarItem.title = playlist.name
     }
     
     func configure(_ playlist:Playlist){
         self.songs = playlist.songs
         navBarItem.title = playlist.name
+        self.miniPlayer = playerVC?.miniPlayer
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -62,8 +67,7 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         playerVC?.position = indexPath.row
         playerVC?.miniPlayerView = miniPlayerView
         playerVC?.miniPlayer = miniPlayer
-        ModelObject.sharedIntance.VC = playerVC
-        ModelObject.sharedIntance.miniPlayer = miniPlayer
+        delegate?.pushToSuperView(withViewController: playerVC!)
         present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
     }
     
