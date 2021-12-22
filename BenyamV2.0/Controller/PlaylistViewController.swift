@@ -11,28 +11,23 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var miniPlayerView: UIView!
     @IBOutlet weak var navBarItem: UINavigationItem!
     weak var miniPlayer:MiniPlayerViewController?
+    weak var delegate:NestedViewControllerHandler?
     var songs:[Song] = []
     var playerVC:PlayerViewController?
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        if(miniPlayerView.isHidden == false){
-            miniPlayerView.isHidden = true
-        }
+        miniPlayerView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let playerVC = playerVC{
-            if let player = playerVC.player{
-                if player.isPlaying{
-                    miniPlayerView.isHidden = false
-                }
+        if let playerVC = self.playerVC{
+            if(self.miniPlayerView.isHidden == true){
+                self.miniPlayerView.isHidden = false
             }
-            if playerVC.miniPlayer?.miniPlayerView?.isHidden == false{
-                self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.miniPlayerView, playerVC.player!)
-            }
+            self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.miniPlayerView, playerVC.player!)
         }
     }
     func configure(_ playlist:Playlist, _ playerVC: PlayerViewController){
@@ -66,7 +61,7 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
         playerVC?.position = indexPath.row
         playerVC?.miniPlayerView = miniPlayerView
         playerVC?.miniPlayer = miniPlayer
-        ModelObject.sharedIntance.VC = playerVC
+        delegate?.pushToSuperView(withViewController: playerVC!)
         present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
     }
     
@@ -80,6 +75,12 @@ class PlaylistViewController:UIViewController, UITableViewDataSource, UITableVie
             if let destination = segue.destination as? MiniPlayerViewController {
                 miniPlayer = destination
             }
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let playerVC = playerVC{
+            delegate?.pushToSuperView(withViewController: playerVC)
         }
     }
 }

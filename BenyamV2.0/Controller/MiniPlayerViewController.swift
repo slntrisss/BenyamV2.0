@@ -15,15 +15,16 @@ class MiniPlayerViewController:UIViewController {
     @IBOutlet weak var btnClose: UIButton!
     weak var miniPlayerView:UIView?
     var player:AVAudioPlayer?
+    var closed = true
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     @IBAction func removeAndStopAudio(_ sender: Any) {
         if let player = player{
             player.stop()
-            PlayerViewController.shared.player = nil
         }
         miniPlayerView?.isHidden = true
+        print("changed to true!")
     }
     
     @IBAction func playOrPauseAudio(_ sender: Any) {

@@ -7,7 +7,8 @@
 
 import UIKit
 import Firebase
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler{
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NestedCellHandler,
+                      NestedViewControllerHandler{
     @IBOutlet weak var table:UITableView!
     @IBOutlet weak var mainView:UIView!
     var miniPlayer:MiniPlayerViewController?
@@ -87,14 +88,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
             self.table.reloadData()
-            if let playerVC = ModelObject.sharedIntance.VC{
-                if playerVC.miniPlayer?.miniPlayerView?.isHidden == false{
-                    if(self.mainView.isHidden == true){
-                        self.mainView.isHidden = false
-                    }
-                    self.playerVC = playerVC
-                    self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.mainView, playerVC.player!)
+            if let playerVC = self.playerVC{
+                if(self.mainView.isHidden == true){
+                    self.mainView.isHidden = false
                 }
+                self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.mainView, playerVC.player!)
             }
         }
     }
@@ -118,6 +116,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return
         }
         if let playerVC = playerVC{
+            playerVC.player?.stop()
             playerVC.player = nil
         }
         ModelObject.sharedIntance.VC?.player?.stop()
@@ -126,7 +125,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         playerVC?.position = indexPath.row
         playerVC?.miniPlayerView = mainView
         playerVC?.miniPlayer = miniPlayer
-        ModelObject.sharedIntance.VC = playerVC
         present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
         let gestureRecognizer = UITapGestureRecognizer(target: self,
                                                        action: #selector(gestureRecognized(_ :)))
@@ -146,14 +144,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         if(segue.identifier == "playlistViewController"){
-            guard let playlistVC = segue.destination as? PlaylistViewController else{
-                return
-            }
+            let playlistVC: PlaylistViewController = segue.destination as! PlaylistViewController
             if let playlist = playlist {
                 if let playerVC = playerVC{
+                    playlistVC.delegate = self
                     playlistVC.configure(playlist, playerVC)
                 }
                 else{
+                    playlistVC.delegate = self
                     playlistVC.configure(playlist)
                 }
             }
@@ -168,6 +166,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func pushToSuperView(withData: Playlist) {
         playlist = withData
         performSegue(withIdentifier: "playlistViewController", sender: self)
+    }
+    
+    func pushToSuperView(withViewController: PlayerViewController) {
+        self.playerVC = withViewController
+        print("----------")
+        print("-----------")
+        print("-----------")
+        print("-----------")
+        print("-----------")
+        print("Got Data from Playlist!")
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
