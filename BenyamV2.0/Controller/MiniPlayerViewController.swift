@@ -24,7 +24,7 @@ class MiniPlayerViewController:UIViewController {
             player.stop()
         }
         miniPlayerView?.isHidden = true
-        print("changed to true!")
+        ModelObject.sharedIntance.miniPlayerView?.isHidden = true
     }
     
     @IBAction func playOrPauseAudio(_ sender: Any) {

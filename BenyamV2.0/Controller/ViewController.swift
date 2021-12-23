@@ -89,21 +89,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             self.table.reloadData()
             if let playerVC = self.playerVC{
-                if(self.mainView.isHidden == true){
-                    self.mainView.isHidden = false
+                if let playerView = ModelObject.sharedIntance.miniPlayerView{
+                    if(playerView.isHidden == false && self.mainView.isHidden == true){
+                        self.mainView.isHidden = false
+                    }
+                    self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.mainView, playerVC.player!)
                 }
-                self.miniPlayer?.configure(playerVC.songs[playerVC.position], self.mainView, playerVC.player!)
             }
         }
     }
     @objc func gestureRecognized(_ gesture: UITapGestureRecognizer){
-        guard let vc = storyboard?.instantiateViewController(identifier: "player")
-                as? PlayerViewController else{
-            return
-        }
         if let playerVC = playerVC{
             present(playerVC, animated: true, completion: nil)
         }else{
+            guard let vc = storyboard?.instantiateViewController(identifier: "player")
+                    as? PlayerViewController else{
+                return
+            }
             present(vc, animated: true, completion: nil)
         }
     }
@@ -119,12 +121,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             playerVC.player?.stop()
             playerVC.player = nil
         }
-        ModelObject.sharedIntance.VC?.player?.stop()
         playerVC = playerInstanceVC
         playerVC?.songs = self.songs
         playerVC?.position = indexPath.row
         playerVC?.miniPlayerView = mainView
         playerVC?.miniPlayer = miniPlayer
+        if let _ = ModelObject.sharedIntance.miniPlayerView{
+            ModelObject.sharedIntance.miniPlayerView?.isHidden = true
+        }
+        ModelObject.sharedIntance.miniPlayerView = self.mainView
         present(playerVC ?? playerInstanceVC, animated: true, completion: nil)
         let gestureRecognizer = UITapGestureRecognizer(target: self,
                                                        action: #selector(gestureRecognized(_ :)))
@@ -170,12 +175,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func pushToSuperView(withViewController: PlayerViewController) {
         self.playerVC = withViewController
-        print("----------")
-        print("-----------")
-        print("-----------")
-        print("-----------")
-        print("-----------")
-        print("Got Data from Playlist!")
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

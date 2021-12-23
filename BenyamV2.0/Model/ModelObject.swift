@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import UIKit
 class ModelObject{
     static let sharedIntance = ModelObject()
     var VC:PlayerViewController?
-    var miniPlayer:MiniPlayerViewController?
+    weak var miniPlayerView:UIView?
     var songs:[Song] = []
     var playlists = [Playlist]()
 }

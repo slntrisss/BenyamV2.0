@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 protocol NestedCellHandler:class {
     func pushToSuperView(withData:Playlist)
 }
