@@ -152,6 +152,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let playlistVC: PlaylistViewController = segue.destination as! PlaylistViewController
             if let playlist = playlist {
                 if let playerVC = playerVC{
+                    if let _ = mainView{
+                        ModelObject.sharedIntance.miniPlayerView = mainView
+                    }
                     playlistVC.delegate = self
                     playlistVC.configure(playlist, playerVC)
                 }
